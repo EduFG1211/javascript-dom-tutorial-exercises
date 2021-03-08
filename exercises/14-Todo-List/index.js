@@ -1,40 +1,29 @@
 // Your code here
-let addbutton = document.createElement("button");
-addbutton.innerHTML = "Add Task";
-let location = document.querySelector("body");
-location.appendChild(addbutton);
+let campo = document.getElementById("addToDo");
+console.log(campo);
+campo.addEventListener("keydown", event => {
+	// keypress = enter
+	if (event.key === "Enter") {
+		let lista = document.querySelector("ul");
 
-//Crea nuevas variables
+		let deberNuevo = document.createElement("li");
+		deberNuevo.innerHTML = `<span><i class="fa fa-trash"></i></span> ${campo.value}`;
 
-addbutton.addEventListener("click", function() {
-	let myUL = document.querySelector("ul");
-	let addli = document.createElement("li");
-	let inputValue = document.querySelector("#addToDo").value;
-	let text = document.createTextNode(inputValue);
-	addli.innerHTML = '<span><i class="fa fa-trash"></i></span> ';
-	addli.appendChild(text);
-	if (inputValue === "") {
-		alert("You must write something!");
-	} else {
-		myUL.appendChild(addli);
+		let button = deberNuevo.firstChild.firstChild;
+		button.addEventListener("click", () => {
+			lista.removeChild(deberNuevo);
+		});
+
+		lista.appendChild(deberNuevo);
+
+		campo.value = "";
 	}
-	document.querySelector("#addToDo").value = "";
-	alert(myUL.childNodes.length);
 });
 
-let close = document.getElementsByClassName("fa fa-trash");
-//let childs = myUL.childNodes;
-//let span = document.create
-for (let i = 0; i < close.length; i++) {
-	close[i].onclick = function() {
-		let myUL2 = document.querySelector("ul");
-		let childs = myUL2.childNodes;
-		let div = childs[2 * i + 1];
-		div.style.display = "none";
-		alert(myUL2.childNodes.length); // let div = this.parentElement;
-		// div.style.display = "none";
-		// let list = document.querySelector("ul");
-		// let childs = myUL.childNodes;
-		// myUL.removeChild(childs[i * 2 + 1]);
-	};
-}
+let list = document.querySelector("ul");
+let trash = document.querySelectorAll(".fa-trash");
+trash.forEach(item => {
+	item.addEventListener("click", () => {
+		list.removeChild(item.parentNode.parentNode);
+	});
+});
